@@ -1,0 +1,14 @@
+{% for rental in rentals %}
+    <div class="row bg-light border rounded my-2 py-2">
+        <div class="col-3">
+            <img src=""  alt=""/>
+        </div>
+        <div class="col-7">
+            <h2>{{ rental.title }}</h2>
+            <p>{{ rental.describe }}</p>
+        </div>
+        <div class="col-2 text-center">
+            <a href="{{ path('app_rental_tenant', {'id': rental.id}) }}" class="btn btn-primary">Voir</a>
+        </div>
+    </div>
+{% endfor %}

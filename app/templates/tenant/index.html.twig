@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ importmap('searchWrapper') }}
+{% endblock %}
+
+{% block section %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 my-2">
+                <h1 class="text-left">Liste des locations</h1>
+            </div>
+            <div class="col-12 my-2">
+                <div class="row justify-content-end my-2 searchWrapper">
+                    <div class="col-3">
+                        <form id="searchForm" class="form_Search_action" action="{{ path('app_search_rental_for_tenant') }}">
+                            <label for="exampleDataList" class="form-label">Datalist example</label>
+                            <input class="form-control" list="datalistOptions" id="exampleDataList" name="locality" placeholder="City to search...">
+                            <datalist id="datalistOptions">
+                                {% for locality in localities %}
+                                    <option value="{{ locality }}">
+                                {% endfor %}
+                            </datalist>
+
+                            <button type="submit" class="btn btn-sm btn-primary my-2">Rechercher</button>
+                        </form>
+                    </div>
+                </div>
+                <aside class="result">
+                    {% for rental in rentals %}
+                    <div class="row bg-light border rounded my-2 py-2">
+                            <div class="col-3">
+                                <img src="{{ asset('upload/picture/'~rental.filename) }}" alt="camping-car" class="img-fluid"/>
+                            </div>
+                            <div class="col-7">
+                                <h2>{{ rental.title }}</h2>
+                                <p>{{ rental.describe }}</p>
+                            </div>
+                            <div class="col-2 text-center">
+                                <a href="{{ path('app_rental_tenant', {'id': rental.id}) }}" class="btn btn-primary">Voir</a>
+                            </div>
+                    </div>
+                    {% endfor %}
+                </aside>
+            </div>
+        </div>
+    </div>
+{% endblock %}

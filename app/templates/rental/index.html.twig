@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block section %}
+    <h1>Rental index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Describe</th>
+                <th>Price</th>
+                <th>Localisation</th>
+                <th>Filename</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rental in rentals %}
+            <tr>
+                <td>{{ rental.id }}</td>
+                <td>{{ rental.title }}</td>
+                <td>{{ rental.describe }}</td>
+                <td>{{ rental.price }}</td>
+                <td>{{ rental.localisation }}</td>
+                <td><img src="{{ asset('upload/picture/'~rental.filename) }}" alt="camping-car" class="img-fluid"></td>
+                <td>
+                    <a href="{{ path('app_rental_show', {'id': rental.id}) }}">show</a>
+                    <a href="{{ path('app_rental_edit', {'id': rental.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_rental_new') }}">Create new</a>
+{% endblock %}

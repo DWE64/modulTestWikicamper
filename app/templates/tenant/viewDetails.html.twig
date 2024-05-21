@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% use 'common/modal/_modal_failed_contact.html.twig' %}
+{% use 'common/modal/_modal_success_contact.html.twig' %}
+{% use 'common/modal/_contact_modal.html.twig' %}
+
+{% block section %}
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-md-12">
+                    <img src="{{ asset('upload/picture/'~rental.filename) }}" alt="camping-car" class="img-fluid">
+                </div>
+                <div class="col-6 col-md-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>{{ rental.title }}</h1>
+                        </div>
+                        <div class="col-12">
+                            <p>{{ rental.describe }}</p>
+                            <p>{{ rental.price }}</p>
+                            <p>{{ rental.localisation }}</p>
+                        </div>
+                        <div class="col-12">
+                            {% block buttonContact %}
+                                {{ parent() }}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% block modalContact %}
+        {{ parent() }}
+    {% endblock %}
+    {% block modalSuccessContact %}
+        {{ parent() }}
+    {% endblock %}
+    {% block modalFailedContact %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts_footer %}
+    {{ parent() }}
+    {{ importmap('contactApp') }}
+    {{ importmap('contactWrapper') }}
+{% endblock %}

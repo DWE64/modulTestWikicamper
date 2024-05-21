@@ -1,0 +1,54 @@
+{% block buttonContact %}
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_contact_{{ rental.id }}">
+        Contacter le propriétaire
+    </button>
+{% endblock %}
+
+{% block modalContact %}
+    <div class="modal fade" id="modal_contact_{{ rental.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content js-contact">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Demande de renseignement</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form_contact_action"
+                          action={{ path('app_contact_send') }} data-url="{{ path('app_contact_send') }}">
+                        <input type="hidden" name="id_rental"
+                               value="{{ rental.id }}"
+                        >
+                        <input type="hidden" name="title_rental"
+                               value="{{ rental.title }}"
+                        >
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="firstname" class="form-label">Prénom</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Téléphone</label>
+                            <input type="text" class="form-control" id="phone" name="phone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Objet</label>
+                            <input type="text" class="form-control" id="subject" name="subject">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="3" name="message"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

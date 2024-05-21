@@ -1,0 +1,63 @@
+version: '3.2'
+
+services:
+    web_wikicamper:
+        build: docker/php_testWikiCamper
+        container_name: php_testWikiCamper
+        networks:
+          dev_interface:
+            ipv4_address: 192.22.0.2
+        ports:
+          - 127.0.0.1:8502:8502
+          - 127.0.0.1:8503:8503
+        volumes:
+          - type: bind
+            source: ./docker/php_testWikiCamper/vhosts
+            target: /etc/apache2/sites-enabled
+          - type: bind
+            source: ${APP_FOLDER}
+            target: /var/www/html/testWikiCamper
+        extra_hosts:
+          - host.docker.internal:host-gateway
+        profiles:
+          - testWikiCamper
+
+    database:
+      image: postgres:latest
+      container_name: db_testWikiCamper
+      networks:
+        dev_interface:
+          ipv4_address: 192.22.0.3
+      environment:
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_USER: ${POSTGRES_USER}
+      volumes:
+        - database_data:/var/lib/postgresql/data:rw
+      profiles:
+        - testWikiCamper
+      ports:
+        - 127.0.0.1:8510:5432
+
+    maildev:
+      image: maildev/maildev
+      container_name: maildev_docker_testwikicamper
+      command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+      networks:
+        dev_interface:
+          ipv4_address: 192.22.0.4
+      ports:
+        - "127.0.0.1:5452:80"
+      restart: always
+      profiles:
+        - testWikiCamper
+        - maildev
+
+networks:
+    dev_interface:
+      ipam:
+        config:
+          - subnet: 192.22.0.0/16
+volumes:
+  ###> doctrine/doctrine-bundle ###
+  database_data:
